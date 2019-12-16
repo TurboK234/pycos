@@ -1,0 +1,153 @@
+[GENERAL]
+
+# GENERAL CONVERSION PREFERENCES (USER CONFIRMATION REQUIRED).
+# DO NOT USE LITERAL (SINGLE) BACKSLASHES AS THE LAST CHARACTER. THEY ARE NOT REQUIRED FOR PATHS AND USING THEM WILL LEAD TO AN ERROR.
+
+# The complete path (without the last slash or backslash) of both ffmpeg.exe and ffprobe.exe. Can be left empty, if both of the executables are in the system path.
+DIR_FFMPEG = C:\Utilities\ffmpeg_active\bin
+
+# The complete path (without the last slash or backslash) of the video files to be converted.
+DIR_REC = C:\TempWork\test\rec_source
+
+ # The complete path (without the last slash or backslash) of the new converted files and their metadata .nfo -files. !!!NOTE: this NEEDS to pre-exist, the script will not create it.
+DIR_TARGET = C:\TempWork\test\rec_mkv
+
+# The extension of the source files. Wild cards are not supported.                                                
+EXTENSION_REC = mkv
+
+# The extension of the target files (without the period).
+EXTENSION_TARGET = mkv
+
+# The complete path (without the last slash or backslash) of the log file. Use empty to use DIR_REC as the log folder.
+DIR_LOG = 
+
+# Number of days before the file is processed. This option looks at the source file's modification time, and considers only dates
+# and rounds up (i.e. file modified yesterday -> value = 1). Use 0 to convert files regardless of their age. This is a safety measure for automated setups,
+# not to convert files that are currently being written / recorded. As such, 1 is usually a good value.
+DAYS_BEFORE_CONVERSION = 1
+
+# Number of days to keep the original (successfully converted) recordings (based on the modification date), older files are deleted.
+# Use -1 to disable deleting.
+DAYS_KEEP_OLD = 10
+
+# Chooses only the largest file of multiple files with file name pattern foobar.ext, foobar-1.ext etc if yes. Other files are marked as converted.
+# No is recommended with normal files, but recordings whose name ends with time tags can be evaluated with this method.
+PADDING_FILE_EXCLUSION = yes
+
+# See above. The default value for this is 2 (foobar-1, two last characters trimmed). If you want to have a different length (for trimming time stamps etc)
+# you can have any value. This also makes it less specific, so be careful.
+PADDING_FILE_NAME_TRIM_LENGTH = 7
+
+# If yes, the script scrapes the file metadata using ffprobe and creates a .nfo (XML format) file according to rules set with "metadata"
+# rules and METADATA_EXTRAOPTIONS (see below).
+WRITE_NFO = yes
+
+# Skips the whole conversion part of this script if yes.
+SKIP_CONVERSION = no
+
+# Skips the whole reorganizer part of this script if yes. !!!NOTE: Skipping (yes) IS recommended for setting up the script and converting the old files,
+# as organizer WILL delete old files right after conversion. Organizer is mainly for PVR-setups, and even then days_keepold = 10 (or more) is recommended.
+SKIP_ORGANIZER = no
+
+# If yes (recommended), the script will tag succesfully converted source files so that they will not get converted again in subsequent script executions.
+CONVERSION_TAGGING = yes
+
+# This checks the tagging folder and removes the lone tag files without corresponding source (video) files.
+# This might occur, if the user e.g. deletes/moves video files manually.
+CLEAN_LOGFOLDER = yes
+
+# Show a y/n dialogue for each file before each file's encoding process after showing the ffpmeg command to be executed.
+# Not suitable for automated work flow, good for setting the system up.
+SHOW_CONVERSION_CONFIRMATION = yes
+
+# Select the verbosity of the log. Choose 0, 1, 2 or 3). 0 for no logging at all, 1 for minimal logging (e.g. script start and converted files),
+# 2 for sensible non repetitive logging and 3 for full log (for debugging).
+LOGLEVEL = 2
+
+
+[FILE_INCLUSION_RULES]
+
+# FILE SPECIFIC CONVERSION INCLUSION/EXCLUSION RULES (OPTIONAL).
+# DO NOT USE LITERAL (SINGLE) BACKSLASHES AS THE LAST CHARACTER. THEY ARE NOT REQUIRED FOR PATHS AND USING THEM WILL LEAD TO AN ERROR.
+
+# Sets a single string to look for in each processed filename, and process only those files.
+GLOBAL_FILENAME_IFF =
+
+# Sets a single string to look for in each processed filename, and skip over those files.
+GLOBAL_FILENAME_IFNOT =
+
+# Sets a single string to look for in ffprobe's report for each processed file, and process only those files.
+GLOBAL_FFPROBEREPORT_IFF =
+
+# Sets a single string to look for in ffprobe's report for each processed file, and skip over those files.                                                                                    
+GLOBAL_FFPROBEREPORT_IFNOT =
+
+
+[FFMPEG_OPTIONS]
+
+# GENERAL FFMPEG OPTIONS FOR ALL FILES / STREAMS (USER CONFIRMATION AND ADDITIONS RECOMMENDED).
+# DO NOT USE LITERAL (SINGLE) BACKSLASHES AS THE LAST CHARACTER. THEY ARE NOT REQUIRED FOR PATHS AND USING THEM WILL LEAD TO AN ERROR.
+
+# Parameters that are passed to ffmpeg as written, placed before "-i" (input file). Used for general options.
+GLOBAL_FFMPEG_OPTIONS_BEFORE_INPUT = -y -ss 00:00:03
+
+# Parameters that are passed to ffmpeg before searched mappings (defined below). Can be used to specify general mappings,
+# for example "-map 0:a" to include all audio streams.                                                                
+GLOBAL_FFMPEG_EXTRAPARAMETERS_BEFORE_MAPPINGS = -map 0:v -map 0:a
+
+# Parameters that are passed to ffmpeg after searched mappings.
+GLOBAL_FFMPEG_EXTRAPARAMETERS_AFTER_MAPPINGS = -vf yadif=0,"scale=-2:'min(720,ih)'"
+
+# Parameter that is passed to ffmpeg after option -codec:v
+GLOBAL_CODEC_ENCODER_VIDEO = libx264 -crf 21 -threads 3
+
+# Parameter that is passed to ffmpeg after option -codec:a
+GLOBAL_CODEC_ENCODER_AUDIO = aac
+
+# Parameter that is passed to ffmpeg after option -codec:s
+GLOBAL_CODEC_ENCODER_SUBTITLE = copy
+
+# Parameters that are passed to ffmpeg as written (inside double quotes), placed after stream mappings and codecs and before output file.
+GLOBAL_FFMPEG_EXTRAPARAMETERS_BEFORE_OUTPUT =
+
+# Parameters that are passed to ffmpeg as written (inside double quotes), placed after output file.
+GLOBAL_FFMPEG_EXTRAPARAMETERS_AFTER_OUTPUT =
+
+# Sets the source file (modification) time to the target file if yes.
+KEEP_SOURCE_TIME = yes
+
+# Additional verification for the target file. If the target is less than 10 Mb then the conversion is considered
+# a failure and the source file is not tagged as converted. This can happen if ffmpeg encounters a lot of errors
+# or something else happens in the beginning of the conversion.
+TARGET_FILE_SIZE_CHECK = yes
+
+
+[METADATA_EXTRAOPTIONS]
+
+# THESE SETTINGS MODIFY THE .NFO FILE CREATED BY THE SCRIPT (OPTIONAL).
+# THESE ARE AN ADDITION TO THE RULES IN RULES, READ CAREFULLY HOW TO USE THESE SETTINGS. THEY WERE WRITTEN TO BE
+# USED WITH ESPECIALLY WITH TVHEADEND BACKEND AND KODI AS FRONTEND. FOR THESE SETTINGS WRITE_NFO (SEE ABOVE) NEEDS TO BE ENABLED.
+
+# Writes the filename (without the extension) as <title> metadata in the .nfo file. Kodi uses this in directory listings.
+WRITE_FILENAME_AS_TITLE = yes
+
+# A special (script creator's preferred) engine, that writes the file creation time (to .xml "plot", before the searched
+# plot metadata, even if "plot" metadata is not searched for. Note that this requires the start time to be tagged in the
+# file metadata, not all files have this tag available (see STARTTIME_FINGERPRINT below).
+WRITE_STARTTIME_TO_PLOT = yes
+
+# Used by WRITE_STARTTIME_TO_PLOT, this variable should include the string that appears ALWAYS and ONLY on the line that has
+# the recording start time in ffprobe's report (for example DATE_BROADCASTED: used by TVHeadend)
+STARTTIME_FINGERPRINT = DATE_BROADCASTED:
+
+# This format needs to match the format of the start time tag according to python datetime.strptime() method rules.
+# TVHeadend uses format %Y-%m-%d %H:%M:%S , for example.
+STARTTIME_FORMAT = %Y-%m-%d %H:%M:%S
+
+# A special (script creator's preferred) engine, that writes the channel name to .xml "plot", before the searched plot metadata,
+# even if "plot" metadata is not searched for.
+WRITE_CHANNEL_TO_PLOT = yes
+
+# Used by WRITE_CHANNEL_TO_PLOT, this variable should include the string that appears ALWAYS and ONLY on the line that has
+# the channel name in ffprobe's report (for example TVCHANNEL       : (used by TVHeadend))
+CHANNEL_FINGERPRINT = TVCHANNEL       :
