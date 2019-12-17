@@ -151,11 +151,12 @@ def parse_rules(filename):
                 log('Rule tag found but previous rule was not finished, check the rules.txt file', 1)
                 log('Starting a new rule and ignoring the unfinished one.', 1)
                 current_ruledict = {}
+                rule_started = True
                 continue
             else:
                 rule_started = True
                 rule_finished = False
-            continue
+                continue
         # Find lines with rule = value
         if RULE_CHAR in line:
             rule, value = line.split(RULE_CHAR, 1)
@@ -187,7 +188,7 @@ else:
 
 log('Prerequisites were met, proceeding...', 2)
 
-# All the necessary checks for running the script were made successfully.
+# All the necessary checks for running the script were made.
 # The actual evaluation of the source files is next.
 
 # All the functions used inside the file search loop are defined next.
@@ -371,8 +372,8 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
     	# TVHeadend, for example, cuts the recorded .mkv file every time the stream configuration
         # changes within the recorded mux. This should only happen before and after the main program.
     	# Thus this engine (if used) selects the largest file of the set and marks other files as
-    	# "converted", so they won't be investigated again. Short recordings can cause problems, so
-    	# only (relatively) small files are considered as padding files.
+    	# "converted", so they won't be investigated again. Short recordings can cause problems,
+    	# as only (relatively) small files are considered as padding files.
         if g_config['GENERAL']['PADDING_FILE_EXCLUSION'] == 'yes':
             log('Checking for other files with the same base file name', 3)
             larger_file_found = False
@@ -391,7 +392,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                                 continue
             if larger_file_found:
                 converted_status_set(filename)            
-                log('Found a much larger file ( relative size = ' + str(round((source_file_size / padcomparefile_size), 4)) + ' ) with the same base file name, tagged (if tagging is enabled in the settings) the assumed padding file ' + filename + ' as converted and skipping to the next file.', 1)
+                log('Found a much larger file (relative size = ' + str(round((source_file_size / padcomparefile_size), 4)) + ') with the same base file name, tagged (if tagging is enabled in the settings) the assumed padding file ' + filename + ' as converted and skipping to the next file.', 1)
                 continue
             else:
                 log('The file is not considered to be a padding file, proceeding.', 3)
@@ -754,6 +755,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
 
             # Tag the source file as converted.
             converted_status_set(filename)
+            log('The file ' + filename + ' was converted.', 1)
 
             # Continue to the next file after the conversion is done.
             continue
