@@ -369,11 +369,11 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
         
         # Check file resemblance to auto-tag the padding files of the recordings.
         # This part was written to differentiate between different subfiles of the same set.
-    	# TVHeadend, for example, cuts the recorded .mkv file every time the stream configuration
+        # TVHeadend, for example, cuts the recorded .mkv file every time the stream configuration
         # changes within the recorded mux. This should only happen before and after the main program.
-    	# Thus this engine (if used) selects the largest file of the set and marks other files as
-    	# "converted", so they won't be investigated again. Short recordings can cause problems,
-    	# as only (relatively) small files are considered as padding files.
+        # Thus this engine (if used) selects the largest file of the set and marks other files as
+        # "converted", so they won't be investigated again. Short recordings can cause problems,
+        # as only (relatively) small files are considered as padding files.
         if g_config['GENERAL']['PADDING_FILE_EXCLUSION'] == 'yes':
             log('Checking for other files with the same base file name', 3)
             larger_file_found = False
@@ -473,7 +473,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
             foundstream = ''
             stream_rule_matches = 0
             streammap_failed = False
-			
+            
             if (rule['EXTRACTION_TYPE'] == 'streamindex'):
 
                 if not dict_key_check(rule, 'STREAM_INCLUDE_OR_EXCLUDE'):
@@ -540,7 +540,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                             log('There were several hits with rule "' + rule['RULE_DESCRIPTION'] + '", critical condition, the file will be skipped', 1)
                             log('Use ALLOWMULTIPLESTREAMHITS = yes if several hits with the same rule search is acceptable.', 1)
                             streammap_failed = True
-							break
+                            break
                         else:
                             # Nothing found (should not happen, since checked before), continue to the next line.
                             continue
