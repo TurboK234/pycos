@@ -533,21 +533,17 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                         else:
                             # No stream found (should not happen, since checked before), continue to the next line.
                             continue
-                    elif (rule['ALLOWMULTIPLESTREAMHITS'] == 'no'):
+                    else:
                         if (stream_rule_matches == 1):
                             mappings.append(foundstream)
                         elif (stream_rule_matches > 1):
                             log('There were several hits with rule "' + rule['RULE_DESCRIPTION'] + '", critical condition, the file will be skipped', 1)
                             log('Use ALLOWMULTIPLESTREAMHITS = yes if several hits with the same rule search is acceptable.', 1)
                             streammap_failed = True
+							break
                         else:
                             # Nothing found (should not happen, since checked before), continue to the next line.
                             continue
-                    else:
-                        log('The rule "' + rule['RULE_DESCRIPTION'] + '" has invalid falue for ALLOWMULTIPLESTREAMHITS (use yes/no), skipping the rule.', 1)
-                        streammap_failed = True
-                        break
-
                 
                 # This ends the rule search in ffprobe report (for line in ffprobe).
                 if (streammap_failed == True):
