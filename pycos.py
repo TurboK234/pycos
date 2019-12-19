@@ -34,6 +34,9 @@ else:
 print('Continuing after 10 seconds.')
 time.sleep(10)
 
+# Change the current directory to the script's directory.
+os.chdir(os.path.dirname(sys.argv[0]))
+
 if not os.path.exists('settings.txt'):
     print('No settings file found (settings.txt) in the script folder. Exiting.')
     sys.exit()
