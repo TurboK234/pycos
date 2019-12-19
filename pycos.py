@@ -31,8 +31,8 @@ elif py_maj == PYTHON_MAJORVERSION_REQUIRED:
 else:
     print(py_report() + ', continuing.')
 
-# print('Continuing after 10 seconds.')
-# time.sleep(10)
+print('Continuing after 10 seconds.')
+time.sleep(10)
 
 if not os.path.exists('settings.txt'):
     print('No settings file found (settings.txt) in the script folder. Exiting.')
