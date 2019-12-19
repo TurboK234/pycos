@@ -35,7 +35,7 @@ DAYS_KEEP_OLD = -1
 PADDING_FILE_EXCLUSION = no
 
 # See above. The default value for this is 2 (foobar-1, two last characters trimmed). If you want to have a different length (for trimming time stamps etc)
-# you can have any value. This also makes it less specific, so be careful.
+# you can have any value. Higher value also makes it less specific, so be careful.
 PADDING_FILE_NAME_TRIM_LENGTH = 2
 
 # If yes, the script scrapes the file metadata using ffprobe and creates a .nfo (XML format) file according to rules set with "metadata"
@@ -56,7 +56,7 @@ CONVERSION_TAGGING = yes
 # This might occur, if the user e.g. deletes/moves video files manually.
 CLEAN_LOGFOLDER = yes
 
-# Show a y/n dialogue for each file before each file's encoding process after showing the ffpmeg command to be executed.
+# Show y/n dialogue for each file before each file's encoding process after showing the ffpmeg command to be executed.
 # Not suitable for automated work flow, good for setting the system up.
 SHOW_CONVERSION_CONFIRMATION = yes
 
@@ -107,10 +107,10 @@ GLOBAL_CODEC_ENCODER_AUDIO =
 # Parameter that is passed to ffmpeg after option -codec:s
 GLOBAL_CODEC_ENCODER_SUBTITLE =
 
-# Parameters that are passed to ffmpeg as written (inside double quotes), placed after stream mappings and codecs and before output file.
+# Parameters that are passed to ffmpeg as written, placed after stream mappings and codecs and before output file.
 GLOBAL_FFMPEG_EXTRAPARAMETERS_BEFORE_OUTPUT =
 
-# Parameters that are passed to ffmpeg as written (inside double quotes), placed after output file.
+# Parameters that are passed to ffmpeg as written, placed after output file.
 GLOBAL_FFMPEG_EXTRAPARAMETERS_AFTER_OUTPUT =
 
 # Sets the source file (modification) time to the target file if yes.
