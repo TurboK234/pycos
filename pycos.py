@@ -1,12 +1,8 @@
+print('Running the converter script.')
+
+# Importing the modules needed for initial check to run the script.
 import sys
 import os
-import configparser
-import time
-import datetime
-import shutil
-import subprocess
-
-print('Running the converter script.')
 
 PYTHON_MAJORVERSION_REQUIRED = 3
 PYTHON_MINORVERSION_REQUIRED = 7
@@ -31,18 +27,55 @@ elif py_maj == PYTHON_MAJORVERSION_REQUIRED:
 else:
     print(py_report() + ', continuing.')
 
+print('The script file is: ' + __file__)
+script_dir = os.path.dirname(os.path.realpath(__file__))
+print('The script directory is: ' + script_dir)
+print('The script arguments are: ')
+print(sys.argv)
+if len(sys.argv) == 1:
+    print('No arguments were provided, assuming settings.txt to be in the script folder.')
+    settings_dir = script_dir
+    print('The settings directory is: ' + settings_dir)
+    settings_file = os.path.join(settings_dir, 'settings.txt')
+    if (os.path.exists(settings_file)):
+        print('A settings.txt file was found in the script folder')
+    else:
+        print('No settings.txt file was found in the script folder, exiting')
+        sys.exit()
+elif len(sys.argv) == 2:
+    print('One argument was provided, checking if the argument is an existing file.')
+    if (os.path.isfile(os.path.realpath(sys.argv[1]))):
+        print('The provided argument is an existing file, assuming to be a valid settings file.')
+        settings_dir = os.path.dirname(os.path.realpath(sys.argv[1]))
+        print('The settings directory is: ' + settings_dir)
+        settings_file = sys.argv[1]
+        print('The settings file is: ' + settings_file)
+    else:
+        print('The provided argument is not an existing file, exiting the script.')
+        sys.exit()
+else:
+    print('Wrong number of arguments provided. The script can only take one argument (the settings file).')
+    sys.exit()
+
+# Importing rest of the needed modules.
+import configparser
+import time
+import datetime
+import shutil
+import subprocess
+
 print('Continuing after 10 seconds.')
 time.sleep(10)
 
-# Change the current directory to the script's directory.
-os.chdir(os.path.dirname(sys.argv[0]))
-
-if not os.path.exists('settings.txt'):
-    print('No settings file found (settings.txt) in the script folder. Exiting.')
-    sys.exit()
-
 g_config = configparser.ConfigParser()
-g_config.read('settings.txt', encoding='UTF-8')
+g_config.read(settings_file, encoding='UTF-8')
+
+if (g_config['GENERAL']['DIR_REC']) == '':
+    print('Source directory is not se (DIR_REC), exiting. Check the settings.')
+    sys.exit()
+if (g_config['GENERAL']['DIR_TARGET']) == '':
+    print('Target directory is not se (DIR_TARGET), exiting. Check the settings.')
+    sys.exit()
 
 if g_config['GENERAL']['DIR_LOG'] == '':
     g_config['GENERAL']['DIR_LOG'] = g_config['GENERAL']['DIR_REC']
@@ -52,7 +85,7 @@ def is_writable(directory):
         temptestfile_prefix = 'write_tester'
         count = 0
         filename = os.path.join(directory, temptestfile_prefix)
-        while(os.path.exists(filename)):
+        while (os.path.exists(filename)):
             filename = '{}.{}'.format(os.path.join(directory, temptestfile_prefix), count)
             count = count + 1
         f = open(filename, 'w')
@@ -183,11 +216,18 @@ def parse_rules(filename):
     f.close()
     return rules
 
-if os.path.exists('rules.txt'):
-    rules = parse_rules('rules.txt')
+if (g_config['GENERAL']['DIR_RULES']) == '':
+    rules_dir = settings_dir   
+else:
+    rules_dir = g_config['GENERAL']['DIR_RULES']
+
+rules_file = os.path.join(rules_dir, 'rules.txt')
+
+if os.path.exists(rules_file):
+    rules = parse_rules(rules_file)
     log(str(len(rules)) + ' rules were read from rules.txt .', 3)
 else:
-    log('No rules file found (rules.txt) in the script folder. The rules are optional, but an empty template file is recommended. Continuing.', 1)
+    log('No rules file found (rules.txt). The rules are optional, but an empty template file is recommended. Continuing.', 1)
 
 log('Prerequisites were met, proceeding...', 2)
 
