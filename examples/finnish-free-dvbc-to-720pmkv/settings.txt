@@ -6,10 +6,13 @@
 # The complete path (without the last slash or backslash) of both ffmpeg.exe and ffprobe.exe. Can be left empty, if both of the executables are in the system path.
 DIR_FFMPEG = C:\Utilities\ffmpeg_active\bin
 
+# The complete path (without the last slash or backslash) of the rules.txt file. Use empty to use the same folder as settings.txt.
+DIR_RULES = 
+
 # The complete path (without the last slash or backslash) of the video files to be converted.
 DIR_REC = C:\TempWork\test\rec_source
 
- # The complete path (without the last slash or backslash) of the new converted files and their metadata .nfo -files. !!!NOTE: this NEEDS to pre-exist, the script will not create it.
+# The complete path (without the last slash or backslash) of the new converted files and their metadata .nfo -files. !!!NOTE: this NEEDS to pre-exist, the script will not create it.
 DIR_TARGET = C:\TempWork\test\rec_mkv
 
 # The extension of the source files. Wild cards are not supported.                                                
@@ -71,16 +74,16 @@ LOGLEVEL = 2
 # DO NOT USE LITERAL (SINGLE) BACKSLASHES AS THE LAST CHARACTER. THEY ARE NOT REQUIRED FOR PATHS AND USING THEM WILL LEAD TO AN ERROR.
 
 # Sets a single string to look for in each processed filename, and process only those files.
-GLOBAL_FILENAME_IFF =
+GLOBAL_FILENAME_IFF = 
 
 # Sets a single string to look for in each processed filename, and skip over those files.
-GLOBAL_FILENAME_IFNOT =
+GLOBAL_FILENAME_IFNOT = 
 
 # Sets a single string to look for in ffprobe's report for each processed file, and process only those files.
-GLOBAL_FFPROBEREPORT_IFF =
+GLOBAL_FFPROBEREPORT_IFF = 
 
 # Sets a single string to look for in ffprobe's report for each processed file, and skip over those files.                                                                                    
-GLOBAL_FFPROBEREPORT_IFNOT =
+GLOBAL_FFPROBEREPORT_IFNOT = 
 
 
 [FFMPEG_OPTIONS]
@@ -108,10 +111,10 @@ GLOBAL_CODEC_ENCODER_AUDIO = aac
 GLOBAL_CODEC_ENCODER_SUBTITLE = copy
 
 # Parameters that are passed to ffmpeg as written, placed after stream mappings and codecs and before output file.
-GLOBAL_FFMPEG_EXTRAPARAMETERS_BEFORE_OUTPUT =
+GLOBAL_FFMPEG_EXTRAPARAMETERS_BEFORE_OUTPUT = 
 
 # Parameters that are passed to ffmpeg as written, placed after output file.
-GLOBAL_FFMPEG_EXTRAPARAMETERS_AFTER_OUTPUT =
+GLOBAL_FFMPEG_EXTRAPARAMETERS_AFTER_OUTPUT = 
 
 # Sets the source file (modification) time to the target file if yes.
 KEEP_SOURCE_TIME = yes
