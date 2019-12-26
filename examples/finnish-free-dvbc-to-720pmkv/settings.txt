@@ -6,7 +6,7 @@
 # The complete path (without the last slash or backslash) of both ffmpeg.exe and ffprobe.exe. Can be left empty, if both of the executables are in the system path.
 DIR_FFMPEG = C:\Utilities\ffmpeg_active\bin
 
-# The complete path (without the last slash or backslash) of the rules.txt file. Use empty to use the same folder as settings.txt.
+# The complete path (without the last slash or backslash) of the rules.txt file. Use empty to use the same folder as this settings file.
 DIR_RULES = 
 
 # The complete path (without the last slash or backslash) of the video files to be converted.
