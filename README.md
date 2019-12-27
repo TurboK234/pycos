@@ -25,12 +25,12 @@ Basic knowledge of FFmpeg and conversion parameters are required for proper setu
 * FFmpeg (and FFprobe) installed (can also be a portable installation, FFmpeg directory can be specified in the settings)
 * At least 10 gigabytes of free space on the target drive
 
-## Usage:
+## Usage/setup:
 * Download the repository either manually as .zip (and unpack) or with git (>git clone https://github.com/TurboK234/pycos).
 * Copy the pycos.py file if needed (e.g. to a "scripts" folder), this is optional.
 * Copy the settings.txt and rules.txt (either from the root folder or from the defaults folder (identical files)) to a desired place (e.g. ~/pycos_settings/settingsprofile1/ ) and rename the settings file to something else if you want. NOTE: You can also run the script in the original folder and use the settings.txt and rules.txt in the same folder by default, but this is the least flexible way, and it's difficult to have several conversion "profiles" this way.
 * Edit the settings file. Do this carefully. And read the comments that should give enough information to get you started.
 * Edit the rules.txt (NOTE: rules.txt can not be renamed, but it can reside in a different folder than settings, if specified in the settings file). It is mandatory to study the files with FFprobe in order to create sensible rules, but the rules are optional if you don't need to specify the streams to be mapped or you don't want to create .nfo files.
 
-## Execution
+## Execution:
 * Run the program with Python. The syntax is >python path/to/pycos.py path/to/settingsfile . You can also just run >python /path/to/pycos.py , but then you need to have properly set settings.txt (with the original name) in the same folder as pycos.py .
