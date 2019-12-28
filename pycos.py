@@ -118,7 +118,7 @@ def log(logstring, c_loglevel):
     str_logstring = str(logstring)
     print(str_logstring)
     if int(g_config['GENERAL']['LOGLEVEL']) >= c_loglevel:
-        f = open(logfile, 'a')
+        f = open(logfile, 'a', encoding='UTF-8')
         f.write(get_timestamp() + ' : ' + str_logstring + '\n')
         f.close
         return
