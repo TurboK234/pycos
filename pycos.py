@@ -405,7 +405,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
         # Check days before conversion
         days_since_modification = (datetime.date.today() - datetime.date.fromtimestamp(os.path.getmtime(filename_fullpath))).days
         if (days_since_modification < int(g_config['GENERAL']['DAYS_BEFORE_CONVERSION'])):
-            log('The file is newer (' + str(days_since_modification) + ' day(s) since modified) than DAYS_BEFORE_CONVERSION defines, skipping the file.', 3)
+            log('The file is newer (' + str(days_since_modification) + ' day(s) since modified) than DAYS_BEFORE_CONVERSION defines, skipping the file.', 2)
             continue
         else:
             log('The file is older or equal (' + str(days_since_modification) + ' day(s) since modified) to what DAYS_BEFORE_CONVERSION defines, continuing.', 3) 
