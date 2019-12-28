@@ -68,7 +68,7 @@ print('Continuing after 10 seconds.')
 time.sleep(10)
 
 g_config = configparser.ConfigParser()
-g_config.read(settings_file, encoding='UTF-8')
+g_config.read(settings_file, encoding='utf-8')
 
 if (g_config['GENERAL']['DIR_REC']) == '':
     print('Source directory is not se (DIR_REC), exiting. Check the settings.')
@@ -118,7 +118,7 @@ def log(logstring, c_loglevel):
     str_logstring = str(logstring)
     print(str_logstring)
     if int(g_config['GENERAL']['LOGLEVEL']) >= c_loglevel:
-        f = open(logfile, 'a', encoding='UTF-8')
+        f = open(logfile, 'a', encoding='utf-8')
         f.write(get_timestamp() + ' : ' + str_logstring + '\n')
         f.close
         return
@@ -178,7 +178,7 @@ def parse_rules(filename):
     current_ruledict = {}
     rule_started = False
     rule_finished = True
-    f = open(filename, encoding='UTF-8')
+    f = open(filename, encoding='utf-8')
     for line in f:
         if COMMENT_CHAR in line:
             line, comment = line.split(COMMENT_CHAR, 1)
