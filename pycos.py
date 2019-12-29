@@ -217,7 +217,7 @@ def parse_rules(filename):
     return rules
 
 if (g_config['GENERAL']['DIR_RULES']) == '':
-    rules_dir = settings_dir   
+    rules_dir = settings_dir
 else:
     rules_dir = g_config['GENERAL']['DIR_RULES']
 
@@ -259,7 +259,7 @@ def converted_status_set(file):
         return False
     else:
         log('File is now being tagged as converted (CONVERSION_TAGGING is enabled in the settings).', 3)
-        
+
     if not os.path.exists(log_rootdir):
         try:
             os.mkdir(log_rootdir)
@@ -283,7 +283,7 @@ def converted_status_set(file):
     if os.path.exists('{}.txt'.format(os.path.join(log_dir, file))):
         log('File seems to be already converted, unexpected condition since it was checked earlier. Deleting the old tag file and creating a new one.', 1)
         os.remove('{}.txt'.format(os.path.join(log_dir, file)))
-    else:        
+    else:
         converted_tagfile = open('{}.txt'.format(os.path.join(log_dir, file)), 'w', encoding='utf-8')
         converted_tagfile.write('Conversion ready ' + get_timestamp() + '.\n')
         converted_tagfile.close()
@@ -301,7 +301,7 @@ def dict_key_check(dict, key):
     else:
         log('No ' + key + ' found in rule "' + str(rule['RULE_DESCRIPTION']) + '"', 2)
         return False
-          
+
 # Function to convert xml special characters in strings to their proper escaped xml form.
 def xml_escape(textstring):
     textstring = textstring.replace("&", "&amp;")
@@ -327,11 +327,11 @@ def attr_add(section, setting):
 # ---------------------------------------------
 # The file-by-file conversion loop starts here.
 for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
-    
+
     if g_config['GENERAL']['SKIP_CONVERSION'] == 'yes':
         log('SKIP_CONVERSION is enabled in settings, skipping the file conversion engine', 2)
         break
-    
+
     if filename.endswith('.' + g_config['GENERAL']['EXTENSION_REC']):
         log(filename + ' was found, considered for conversion.', 3)
 
@@ -401,7 +401,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
         else:
             log('There is ' + str(target_freespace) + ' Gb free space for the target file in ' + g_config['GENERAL']['DIR_TARGET'] + ' , ' + str(REQUIRED_TARGET_SPACE) + ' Gb or more required. Ending conversion file loop', 1)
             break
-        
+
         # Check days before conversion
         days_since_modification = (datetime.date.today() - datetime.date.fromtimestamp(os.path.getmtime(filename_fullpath))).days
         if (days_since_modification < int(g_config['GENERAL']['DAYS_BEFORE_CONVERSION'])):
@@ -409,7 +409,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
             continue
         else:
             log('The file is older or equal (' + str(days_since_modification) + ' day(s) since modified) to what DAYS_BEFORE_CONVERSION defines, continuing.', 3) 
-        
+
         # Check file resemblance to auto-tag the padding files of the recordings.
         # This part was written to differentiate between different subfiles of the same set.
         # TVHeadend, for example, cuts the recorded .mkv file every time the stream configuration
@@ -439,7 +439,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                     # Found itself, skipping to the next file.
                     continue
             if larger_file_found:
-                converted_status_set(filename)            
+                converted_status_set(filename)
                 log('Found a much larger file (relative size = ' + small_relative_size + ') with the same base file name, tagged (if tagging is enabled in the settings) the assumed padding file ' + filename + ' as converted and skipping to the next file.', 1)
                 continue
             else:
@@ -454,7 +454,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
         no_conversion_error = False
         mappings = []
         metadata_dict = {}
-        
+
         for rule in rules:
             if not dict_key_check(rule, 'EXTRACTION_TYPE'):
                 log('The rule "' + rule['RULE_DESCRIPTION'] + '" is missing the EXTRACTION_TYPE, skipping the rule.', 1)
@@ -513,7 +513,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
             else:
                 log('No EXTRACTION_LINE_RULE_1 key in the rule "' + rule['RULE_DESCRIPTION'] + '", ignoring the rule.', 1)
                 continue
-            
+
             # Stream mapping engine. This is the part that checks the rules (set in rules.txt) to find
             # specific streams to be included with -map option in ffmpeg. Note that overlapping rules
             # may cause conflicts and the order might matter.
@@ -521,19 +521,19 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
             foundstream = ''
             stream_rule_matches = 0
             streammap_failed = False
-            
+
             if (rule['EXTRACTION_TYPE'] == 'streamindex'):
 
                 if not dict_key_check(rule, 'STREAM_INCLUDE_OR_EXCLUDE'):
                     log('The STREAM_INCLUDE_OR_EXCLUDE key is missing from the rule "' + rule['RULE_DESCRIPTION'] + '", skipping the rule', 1)
-                    break                
+                    break
 
                 if not dict_key_check(rule, 'ALLOWMULTIPLESTREAMHITS'):
                     log('The ALLOWMULTIPLESTREAMHITS key is missing from the rule "' + rule['RULE_DESCRIPTION'] + '", skipping the rule', 1)
                     break
-                
+
                 for line in file_ffprobe_output.split('\n'):
-                    
+
                     if 'EXCLUSION_LINE_RULE_1' in rule:
                         if not rule['EXCLUSION_LINE_RULE_1'] == '':
                             if line.find(rule['EXCLUSION_LINE_RULE_1']) >= 0:
@@ -565,7 +565,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                     else:
                         # The first rule was not found on the line, continue to the next line.
                         continue
-                                             
+
                     if (rule['STREAM_INCLUDE_OR_EXCLUDE'] == 'include'):
                         foundstream = foundstream
                     elif (rule['STREAM_INCLUDE_OR_EXCLUDE'] == 'exclude'):
@@ -592,7 +592,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                         else:
                             # Nothing found (should not happen, since checked before), continue to the next line.
                             continue
-                
+
                 # This ends the rule search in ffprobe report (for line in ffprobe).
                 if (streammap_failed == True):
                     no_conversion_error = True
@@ -600,7 +600,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                 else:
                     # If a rule was mapped and the script is ready to continue with the next line.
                     continue
-                
+
             # This breaks the loop of the rules (for rule in rules...) if something went seriously wrong.
             if (streammap_failed == True):
                 no_conversion_error = True
@@ -613,20 +613,20 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
 
                 foundmetadata = ''
                 metadata_rule_matches = 0
-                
+
                 if (rule['EXTRACTION_TYPE'] == 'metadata_nfo'):
-                    
+
                     if not dict_key_check(rule, 'METADATA_XML_HEADER'):
                         log('The METADATA_XML_HEADER key is missing from the rule "' + rule['RULE_DESCRIPTION'] + '", skipping the rule', 1)
                         continue
 
                     for line in file_ffprobe_output.split('\n'):
-                        
+
                         if 'EXCLUSION_LINE_RULE_1' in rule:
                             if not rule['EXCLUSION_LINE_RULE_1'] == '':
                                 if line.find(rule['EXCLUSION_LINE_RULE_1']) >= 0:
                                     log('Line exclusion rule ("' + rule['RULE_DESCRIPTION'] + '") was encountered, skipping a line.', 2)
-                                    continue            
+                                    continue
 
                         if line.find(rule['EXTRACTION_LINE_RULE_1']) >= 0:
                             if 'EXTRACTION_LINE_RULE_2' in rule:
@@ -661,23 +661,23 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
 
                     # This ends the search for the current line in ffprobe report (for line in ffprobe).
                     continue
-                            
+
                 # This continues the loop of the rules (for rule in rules...).
                 continue
 
         # .nfo stitching
         xml_str = ''
         if g_config['GENERAL']['WRITE_NFO'] == 'yes':
-            
+
             xml_str = '<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>\n'
             xml_str = xml_str + '<movie>\n'
 
             # Add filename as <title>, if set in settings.
             if g_config['METADATA_EXTRAOPTIONS']['WRITE_FILENAME_AS_TITLE'] == 'yes':
                 xml_str = xml_str + '    <title>' + file_basename + '</title>\n'
-                
+
             # Add extra plot text according to settings.
-            
+
             if g_config['METADATA_EXTRAOPTIONS']['WRITE_CHANNEL_TO_PLOT'] == 'yes':
                 channeltag_found = False
                 if not g_config['METADATA_EXTRAOPTIONS']['CHANNEL_FINGERPRINT'] == '':
@@ -725,9 +725,9 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
             # Add all found metadata keys to the xml-string.
             for metadata_key in metadata_dict:
                 xml_str = xml_str + '    <' + metadata_key + '>' + metadata_dict[metadata_key] + '</' + metadata_key + '>\n'
-            # Finish the xml-stitching with closing tag.    
+            # Finish the xml-stitching with closing tag.
             xml_str = xml_str + '</movie>\n'
-                
+
         # ffmpeg command stitching
         if not no_conversion_error:
             target_filename_fullpath = '{}'.format(os.path.join(g_config['GENERAL']['DIR_TARGET'], str(file_basename + '.' + g_config['GENERAL']['EXTENSION_TARGET'])))
@@ -735,7 +735,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
             mappings_str = ''
             for i in mappings:
                 mappings_str = mappings_str + ' -map ' + i
-        
+
             ffmpeg_cmd_file = str('\"' + ffmpeg_cmd + '\"' + attr_add('FFMPEG_OPTIONS', 'GLOBAL_FFMPEG_OPTIONS_BEFORE_INPUT') +
                                   ' -i ' + '\"' + filename_fullpath + '\"' +
                                   attr_add('FFMPEG_OPTIONS', 'GLOBAL_FFMPEG_EXTRAPARAMETERS_BEFORE_MAPPINGS') +
@@ -747,11 +747,11 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                                   attr_add('FFMPEG_OPTIONS', 'GLOBAL_FFMPEG_EXTRAPARAMETERS_BEFORE_OUTPUT') +
                                   ' ' + '\"' + target_filename_fullpath + '\"' +
                                   attr_add('FFMPEG_OPTIONS', 'GLOBAL_FFMPEG_EXTRAPARAMETERS_AFTER_OUTPUT'))
-            
+
             # The ffmpeg command execution. This needs shell=True ,
             # as the ffmpeg parameters are almost impossible to provide separately
             # with proper escaping (e.g. if you need some more complex filters).
-    
+
             log('The command about to be executed: ' + ffmpeg_cmd_file, 2)
 
             if g_config['GENERAL']['SHOW_CONVERSION_CONFIRMATION'] == 'yes':
@@ -765,7 +765,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                 else:
                     log('Conversion confirmation was prompted and user chose not to proceed, continuing to the next file.', 2)
                     continue
-               
+
             # The actual ffmpeg command.
             subprocess.run(ffmpeg_cmd_file, shell=True)
 
@@ -803,7 +803,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
 
             # Continue to the next file after the conversion is done.
             continue
-            
+
         else:
             log('There was a critical error and the file can not be converted (maybe a rule conflict), check the log.', 1)
     else:
@@ -822,7 +822,7 @@ else:
         if int(g_config['GENERAL']['DAYS_KEEP_OLD']) < 0:
             log('Age-based deleting of files disabled.', 3)
             break
-        
+
         if filename.endswith('.' + g_config['GENERAL']['EXTENSION_REC']):
             if converted_status_check(filename) == True:
                 filename_fullpath = '{}'.format(os.path.join(g_config['GENERAL']['DIR_REC'], filename))
@@ -839,14 +839,14 @@ else:
             else:
                 log('Not-converted file ' + filename + ' found, skipping to the next file', 3)
                 continue
-            
+
         else:
             log(filename + ' has wrong extension, skipping.', 3)
             continue
 
     if g_config['GENERAL']['CLEAN_LOGFOLDER'] == 'yes':
         if os.path.exists(log_dir):
-            
+
             for tagfile in os.listdir(log_dir):
                 taggedfilename, txtext = tagfile.rsplit('.', 1)
                 if os.path.exists('{}'.format(os.path.join(g_config['GENERAL']['DIR_REC'], taggedfilename))) == True:
@@ -855,11 +855,11 @@ else:
                     os.remove('{}'.format(os.path.join(log_dir, tagfile)))
                     log('A lone (tag)file ' + tagfile + ' was found and removed.', 2)
                     continue
-                
+
             tagfile_count = len(os.listdir(log_dir))
             if tagfile_count < 1:
                 shutil.rmtree(log_rootdir)
                 log('The tag folder was empty and it was deleted.', 2)
 
-# End the script after all of the files have been considered for conversion and the organizer was run.    
+# End the script after all of the files have been considered for conversion and the organizer was run.
 end1()
