@@ -427,15 +427,20 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                 if not filename == padcomparefile:
                     if padcomparefile.find(file_basename_minuspadding) >= 0:
                         padcomparefile_size = os.path.getsize('{}'.format(os.path.join(g_config['GENERAL']['DIR_REC'], padcomparefile)))
-                        if padcomparefile_size > source_file_size:
-                            if (source_file_size / padcomparefile_size) < 0.3:
+                        if (padcomparefile_size > source_file_size):
+                            if ((source_file_size / padcomparefile_size) < 0.3):
                                 larger_file_found = True
+                                small_relative_size = str(round((source_file_size / padcomparefile_size), 4))
+                                break
                             else:
                                 log('A larger file with a similar name was found, but the difference ( relative size = ' + str(round((source_file_size / padcomparefile_size), 4)) + ' ) is too small to tag a padding file for exclusion.', 2)
                                 continue
+                else:
+                    # Found itself, skipping to the next file.
+                    continue
             if larger_file_found:
                 converted_status_set(filename)            
-                log('Found a much larger file (relative size = ' + str(round((source_file_size / padcomparefile_size), 4)) + ') with the same base file name, tagged (if tagging is enabled in the settings) the assumed padding file ' + filename + ' as converted and skipping to the next file.', 1)
+                log('Found a much larger file (relative size = ' + small_relative_size + ') with the same base file name, tagged (if tagging is enabled in the settings) the assumed padding file ' + filename + ' as converted and skipping to the next file.', 1)
                 continue
             else:
                 log('The file is not considered to be a padding file, proceeding.', 3)
