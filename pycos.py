@@ -64,7 +64,7 @@ import datetime
 import shutil
 import subprocess
 
-print('Continuing after 10 seconds.')
+print('Continuing after 10 seconds. Press Ctrl+C to abort the script now (not recommended later).')
 time.sleep(10)
 
 g_config = configparser.ConfigParser()
@@ -99,7 +99,7 @@ def is_writable(directory):
 if (is_writable(g_config['GENERAL']['DIR_LOG'])):
     print('Log directory is writable (required), proceeding.')
 else:
-    print('Log directory is not writable (required), check permissions and settings.txt. The script will now exit')
+    print('Log directory is not writable (required), check permissions and settings.txt. The script will now exit.')
     sys.exit()
 
 current_year = time.strftime('%Y', time.localtime())
