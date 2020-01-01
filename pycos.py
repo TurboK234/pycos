@@ -675,7 +675,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
             # Add filename as <title>, if set in settings.
             if g_config['METADATA_EXTRAOPTIONS']['WRITE_FILENAME_AS_TITLE'] == 'yes':
                 xml_str = xml_str + '    <title>' + file_basename + '</title>\n'
-                log('File base name (' + file_basename + ') was is used as <title> in the .nfo file.', 2)
+                log('File base name (' + file_basename + ') is used as <title> in the .nfo file.', 2)
 
             # Add extra plot text according to settings.
 
