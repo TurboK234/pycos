@@ -71,10 +71,10 @@ g_config = configparser.ConfigParser()
 g_config.read(settings_file, encoding='utf-8')
 
 if (g_config['GENERAL']['DIR_REC']) == '':
-    print('Source directory is not se (DIR_REC), exiting. Check the settings.')
+    print('Source directory is not set (DIR_REC), exiting. Check the settings.')
     sys.exit()
 if (g_config['GENERAL']['DIR_TARGET']) == '':
-    print('Target directory is not se (DIR_TARGET), exiting. Check the settings.')
+    print('Target directory is not set (DIR_TARGET), exiting. Check the settings.')
     sys.exit()
 
 if g_config['GENERAL']['DIR_LOG'] == '':
