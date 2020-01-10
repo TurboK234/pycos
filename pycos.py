@@ -433,7 +433,7 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
                                 small_relative_size = str(round((source_file_size / padcomparefile_size), 4))
                                 break
                             else:
-                                log('A larger file with a similar name was found, but the difference ( relative size = ' + str(round((source_file_size / padcomparefile_size), 4)) + ' ) is too small to tag a padding file for exclusion.', 2)
+                                log('A larger file with a similar name was found, but the difference (relative size = ' + str(round((source_file_size / padcomparefile_size), 4)) + ') is too small to tag a padding file for exclusion.', 2)
                                 continue
                 else:
                     # Found itself, skipping to the next file.
