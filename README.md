@@ -33,4 +33,4 @@ Basic knowledge of FFmpeg and conversion parameters are required for proper setu
 * Edit the rules.txt (NOTE: rules.txt can not be renamed, but it can reside in a different folder than settings, if specified in the settings file). It is mandatory to study the files with FFprobe in order to create sensible rules, but the rules are optional if you don't need to specify the streams to be mapped or you don't want to create .nfo files.
 
 ## Execution:
-* Run the program with Python. The syntax is >python path/to/pycos.py path/to/settingsfile . You can also just run >python /path/to/pycos.py , but then you need to have properly set settings.txt (with the original name) in the same folder as pycos.py .
+* Run the program with Python. The syntax is `python path/to/pycos.py path/to/settingsfile` . You can also just run `python /path/to/pycos.py` , but then you need to have properly set settings.txt (with the original name) in the same folder as pycos.py .
