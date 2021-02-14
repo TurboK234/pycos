@@ -105,7 +105,7 @@ GLOBAL_FFMPEG_EXTRAPARAMETERS_AFTER_MAPPINGS = -vf yadif=0,"scale=-2:'min(720,ih
 GLOBAL_CODEC_ENCODER_VIDEO = libx264 -crf 21 -threads 3
 
 # Parameter that is passed to ffmpeg after option -codec:a
-GLOBAL_CODEC_ENCODER_AUDIO = aac
+GLOBAL_CODEC_ENCODER_AUDIO = aac -b:a 160k
 
 # Parameter that is passed to ffmpeg after option -codec:s
 GLOBAL_CODEC_ENCODER_SUBTITLE = copy
