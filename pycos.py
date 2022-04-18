@@ -365,6 +365,16 @@ for filename in os.listdir(g_config['GENERAL']['DIR_REC']):
         file_ffprobe_fullreport = subprocess.run([ffprobe_cmd, filename_fullpath], encoding=('UTF-8'), text=True, capture_output=True)
         file_ffprobe_output = file_ffprobe_fullreport.stderr
 
+        if g_config['GENERAL']['TGS_INCLUDE'] == 'yes':
+            if os.path.exists(filename_fullpath + '.tgs'):
+                log('.tgs file corresponding the source file was found.', 3)
+                tgs_file = (filename_fullpath + '.tgs')
+                f = open(tgs_file, encoding='utf-8')
+                file_tgs_string = f.read()
+                f.close()
+                file_ffprobe_output += file_tgs_string
+                log('Data from .tgs file was added to ffprobe report.', 2)        
+
         if not g_config['FILE_INCLUSION_RULES']['GLOBAL_FFPROBEREPORT_IFF'] == '':
             ffprobe_file_iff_found = False
             for line in file_ffprobe_output.split('\n'):
@@ -861,6 +871,17 @@ else:
             if tagfile_count < 1:
                 shutil.rmtree(log_rootdir)
                 log('The tag folder was empty and it was deleted.', 2)
+
+    if g_config['GENERAL']['TGS_INCLUDE'] == 'yes':
+        for tgsfile in os.listdir(g_config['GENERAL']['DIR_REC']):
+            if tgsfile.endswith('.tgs'):
+                tgs_parentfilename, tgsext = tgsfile.rsplit('.', 1)
+                if os.path.exists('{}'.format(os.path.join(g_config['GENERAL']['DIR_REC'], tgs_parentfilename))) == True:
+                    continue
+                else:
+                    os.remove('{}'.format(os.path.join(g_config['GENERAL']['DIR_REC'], tgsfile)))
+                    log('A lone .tgs file ' + tgsfile + ' was found and removed.', 2)
+                    continue
 
 # End the script after all of the files have been considered for conversion and the organizer was run.
 end1()
