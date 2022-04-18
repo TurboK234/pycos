@@ -271,7 +271,7 @@ EXTRACTIONRULE_FFPROBEREPORT_IFNOT =
 # Copy each rule including [RULE] line above and including [/RULE] line in the end.
 RULE_DESCRIPTION = Extract show description to <plot> from metadata
 EXTRACTION_TYPE = metadata_nfo
-EXTRACTION_LINE_RULE_1 = SUMMARY-fin     :
+EXTRACTION_LINE_RULE_1 = TGS_SUB_TITLE :
 EXTRACTION_LINE_RULE_2 =
 EXCLUSION_LINE_RULE_1 =
 STREAM_INCLUDE_OR_EXCLUDE =
