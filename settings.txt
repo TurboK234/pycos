@@ -45,6 +45,12 @@ PADDING_FILE_NAME_TRIM_LENGTH = 2
 # rules and METADATA_EXTRAOPTIONS (see below).
 WRITE_NFO = no
 
+# If yes, the script includes metadata from the text file named <recording>.tgs if it resides in the same folder as the source file.
+# This addition allows extra metadata that the ffprobe's report might not include. For a valid file you need to use e.g. TVHeadend's
+# post processing command that creates same metadata tagging format as ffprobe. A working example for TVH's post processing:
+# /usr/bin/sh -c "echo 'TGS_FULL_PATH : %f\nTGS_FILENAME : %b\nTGS_CHANNEL : %c\nTGS_OWNER : %O\nTGS_CREATOR : %C\nTGS_ORIGINAL_TITLE : %t\nTGS_SUB_TITLE : %s\nTGS_SUMMARY : %m\nTGS_EPISODE : %p\nTGS_DESCRIPTION : %d\nTGS_CONTENT_TYPE : %g\nTGS_ERROR_MSG : %e\nTGS_START_TIME : %S\nTGS_STOP_TIME : %E\nTGS_NUM_OF_ERRORS : %r\nTGS_NUM_OF_DATAERRORS : %R\nTGS_STREAMS : %i\nTGS_UNIQUE_ID : %U\n' | /usr/bin/tee '%f.tgs'"
+TGS_INCLUDE = no
+
 # Skips the whole conversion part of this script if yes.
 SKIP_CONVERSION = no
 
